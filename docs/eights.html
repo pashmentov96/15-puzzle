@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>15-puzzle</title>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.5.0/d3.js"></script>
+    <script src="eights.js"></script>
+    <link rel="stylesheet" href="eights.css">
+</head>
+<body>
+    <svg id="field" width="600" height="600" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+         style="padding-top: 10px; padding-left: 10px;">
+    </svg>
+    <div id="results" style="position: absolute; left: 600px; top: 20px;">
+        <span style="font: bold 30px sans-serif">Current result: <span id="current_result">0</span></span>
+        <br>
+        <br>
+        <span style="font: bold 30px sans-serif">Best result: <span id="best_result">inf</span></span>
+    </div>
+</body>
+<script>
+    let best_result = document.getElementById("best_result");
+    if (localStorage.getItem("best_result")) {
+        best_result.innerText = localStorage.getItem("best_result");
+    }
+    localStorage.clear();
+    localStorage.setItem("best_result", best_result.innerText);
+    generatingField();
+</script>
+</html>

@@ -1,0 +1,25 @@
+.text_cell
+{
+    font: italic 80px Serif;
+    fill: red;
+    pointer-events: none;
+}
+
+.rect_cell
+{
+    width: 125px;
+    height: 125px;
+    fill: aqua;
+    stroke: darkgray;
+    stroke-width: 2
+}
+
+.rect_field
+{
+    x: 0px;
+    y: 0px;
+    width: 500px;
+    height: 500px;
+    fill: white;
+    stroke: black;
+}
