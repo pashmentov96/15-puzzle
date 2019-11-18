@@ -34,6 +34,8 @@ function onClickImage(name, field) {
             let result = confirm("Do you want to play one more game?");
             if (result) {
                 generatingField();
+            } else {
+                clearInterval(+localStorage.getItem("id_stopwatch"));
             }
         }
 
@@ -107,6 +109,12 @@ function generatingField() {
 
         svg.append(new_svg);
     }
+    let start_time = new Date();
+    let start_stamp = start_time.getTime();
+    //console.log("start_time: " + start_time);
+    localStorage.setItem("start_stamp", start_stamp.toString());
+    let id = setInterval(stopwatchFunction, 1000);
+    localStorage.setItem("id_stopwatch", id.toString());
 }
 
 function generatingSequence() {
@@ -141,5 +149,20 @@ function shuffle(array) {
         let j = Math.floor(Math.random() * (i + 1));
         [array[i], array[j]] = [array[j], array[i]];
     }
+}
+
+function stopwatchFunction() {
+    let start_stamp = localStorage.getItem("start_stamp");
+    let start_time = new Date(+start_stamp);
+    //console.log(start_time);
+    let delta = new Date().getTime() - start_time;
+
+    delta = Math.floor(delta / 1000);
+    let hours = "0" + Math.floor(delta / (60 * 60));
+    let minutes = "0" + Math.floor((delta % 3600) / 60);
+    let seconds = "0" + Math.floor(delta % 60);
+
+    let stopwatch = document.getElementById("stopwatch");
+    stopwatch.innerText = hours.slice(-2) + ":" + minutes.slice(-2) + ":" + seconds.slice(-2);
 }
 
