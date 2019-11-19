@@ -40,3 +40,9 @@ svg text {
 svg text::selection {
     background: none;
 }
+
+#new_game_button
+{
+    font: bold 25px sans-serif;
+    color: black;
+}
