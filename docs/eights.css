@@ -2,7 +2,7 @@
 {
     font: italic 80px Serif;
     fill: red;
-    pointer-events: none;
+    //pointer-events: none;
 }
 
 .rect_cell
@@ -22,4 +22,21 @@
     height: 500px;
     fill: white;
     stroke: black;
+}
+
+.unclickable
+{
+    pointer-events: none;
+}
+
+
+svg text {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+svg text::selection {
+    background: none;
 }
