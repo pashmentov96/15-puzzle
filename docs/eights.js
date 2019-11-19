@@ -81,6 +81,7 @@ function moveCell(dx, dy, field, position) {
 }
 
 function generatingField() {
+
     let current_result = document.getElementById("current_result");
     current_result.innerText = "0";
     let field = generatingSequence();
@@ -122,6 +123,8 @@ function generatingField() {
         rect.setAttribute("class", "rect_field");
         svg.append(rect);
     }
+    svg.removeAttribute("class"); // It will remove unclickable class if it exists
+
     for (let i = 0; i < 16; ++i) {
         let x = i % 4;
         let y = Math.floor(i / 4);
