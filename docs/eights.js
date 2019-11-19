@@ -24,21 +24,37 @@ function onClickImage(name, field) {
         let current_result = document.getElementById("current_result");
         current_result.innerText = (+current_result.innerText + 1).toString();
 
+        //console.log(current_result.innerText + ": " + field);
+
         if (isFinished(field)) {
             let best_result = document.getElementById("best_result");
             if (best_result.innerText === "inf" || +best_result.innerText > +current_result.innerText) {
                 best_result.innerText = current_result.innerText;
                 localStorage.setItem("best_result", best_result.innerText);
             }
-            alert("Congrats! Your score: " + current_result.innerText);
-            let result = confirm("Do you want to play one more game?");
-            if (result) {
-                generatingField();
-            } else {
-                clearInterval(+localStorage.getItem("id_stopwatch"));
+
+            let best_time = document.getElementById("best_time");
+            let current_time = document.getElementById("stopwatch");
+
+            if (best_time.innerText === "inf" || best_time.innerText > current_time.innerText) {
+                best_time.innerText = current_time.innerText;
+                localStorage.setItem("best_time", current_time.innerText);
             }
+            alert("Congrats! Your score: " + current_result.innerText);
+            oneMoreGame("Do you want to play one more game?");
         }
 
+    }
+}
+
+function oneMoreGame(str) {
+    let result = confirm(str);
+    if (result) {
+        generatingField();
+    } else {
+        clearInterval(+localStorage.getItem("id_stopwatch"));
+        let svg = document.getElementById("field");
+        svg.setAttribute("class", "unclickable");
     }
 }
 
@@ -111,7 +127,6 @@ function generatingField() {
     }
     let start_time = new Date();
     let start_stamp = start_time.getTime();
-    //console.log("start_time: " + start_time);
     localStorage.setItem("start_stamp", start_stamp.toString());
     let id = setInterval(stopwatchFunction, 1000);
     localStorage.setItem("id_stopwatch", id.toString());
@@ -154,13 +169,17 @@ function shuffle(array) {
 function stopwatchFunction() {
     let start_stamp = localStorage.getItem("start_stamp");
     let start_time = new Date(+start_stamp);
-    //console.log(start_time);
+
     let delta = new Date().getTime() - start_time;
 
     delta = Math.floor(delta / 1000);
     let hours = "0" + Math.floor(delta / (60 * 60));
     let minutes = "0" + Math.floor((delta % 3600) / 60);
     let seconds = "0" + Math.floor(delta % 60);
+
+    if (hours >= 100) {
+        oneMoreGame("Your time is expired. Do you want to start a new game?");
+    }
 
     let stopwatch = document.getElementById("stopwatch");
     stopwatch.innerText = hours.slice(-2) + ":" + minutes.slice(-2) + ":" + seconds.slice(-2);
