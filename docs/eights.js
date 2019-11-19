@@ -24,8 +24,6 @@ function onClickImage(name, field) {
         let current_result = document.getElementById("current_result");
         current_result.innerText = (+current_result.innerText + 1).toString();
 
-        //console.log(current_result.innerText + ": " + field);
-
         if (isFinished(field)) {
             let best_result = document.getElementById("best_result");
             if (best_result.innerText === "inf" || +best_result.innerText > +current_result.innerText) {
@@ -70,11 +68,53 @@ function isFinished(array) {
     return true;
 }
 
+function moveCell(dx, dy, field, position) {
+    let empty_x = +localStorage.getItem("x_empty");
+    let empty_y = +localStorage.getItem("y_empty");
+    let cell_x = empty_x - dx;
+    let cell_y = empty_y - dy;
+    if (0 <= cell_x && cell_x < 4 && 0 <= cell_y && cell_y < 4) {
+        //name -- initial position in field
+        let name = position[field[cell_x + 4 * cell_y]].toString();
+        onClickImage(name, field);
+    }
+}
+
 function generatingField() {
     let current_result = document.getElementById("current_result");
     current_result.innerText = "0";
     let field = generatingSequence();
+
+    let position = {};
+    for (let it = 0; it < 16; ++it) {
+        position[field[it]] = it;
+    }
+
     console.log(field);
+
+    function keyPressed(event) {
+        switch (event.code) {
+            case "KeyA":
+            case "ArrowLeft":
+                moveCell(-1, 0, field, position);
+                break;
+            case "KeyD":
+            case "ArrowRight":
+                moveCell(1, 0, field, position);
+                break;
+            case "KeyW":
+            case "ArrowUp":
+                moveCell(0, -1, field, position);
+                break;
+            case "KeyS":
+            case "ArrowDown":
+                moveCell(0, 1, field, position);
+                break;
+        }
+    }
+
+    document.onkeyup = keyPressed;
+
     let svg = document.getElementById("field");
     {
         d3.select("#field").selectAll("*").remove();
