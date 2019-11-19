@@ -19,15 +19,29 @@
         <br>
         <br>
         <span style="font: bold 30px sans-serif">Current time: <span id="stopwatch">00:00:00</span></span>
+        <br>
+        <br>
+        <span style="font: bold 30px sans-serif">Best time: <span id="best_time">inf</span></span>
     </div>
 </body>
 <script>
+    const current_version = "v0.11";
     let best_result = document.getElementById("best_result");
-    if (localStorage.getItem("best_result")) {
-        best_result.innerText = localStorage.getItem("best_result");
+    let best_time = document.getElementById("best_time");
+    if (!localStorage.getItem("version")) {
+        localStorage.clear();
+        localStorage.setItem("version", current_version);
+    } else {
+        // later we can refresh some information which will be updated
+        if (current_version === localStorage.getItem("version")) {
+            best_result.innerText = localStorage.getItem("best_result");
+            best_time.innerHTML = localStorage.getItem("best_time");
+        }
+        localStorage.clear();
+        localStorage.setItem("version", current_version);
     }
-    localStorage.clear();
     localStorage.setItem("best_result", best_result.innerText);
+    localStorage.setItem("best_time", best_time.innerText);
     generatingField();
 </script>
 </html>
