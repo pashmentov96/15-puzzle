@@ -236,7 +236,7 @@ function stopwatchFunction() {
 
 async function getResults() {
     //let basic_url = "http://127.0.0.1:5000";
-    let basic_url = "http://3e6ffcea.ngrok.io";
+    let basic_url = "https://3e6ffcea.ngrok.io";
     let url = basic_url + "/api/get_results";
 
     try {
@@ -261,7 +261,7 @@ async function getResults() {
 
 async function addResult(result) {
     //let basic_url = "http://127.0.0.1:5000";
-    let basic_url = "http://3e6ffcea.ngrok.io";
+    let basic_url = "https://3e6ffcea.ngrok.io";
     let url = basic_url + "/api/add_result/" + result.toString();
 
     try {
