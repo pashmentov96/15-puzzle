@@ -5,6 +5,7 @@
     <title>15-puzzle</title>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.5.0/d3.js"></script>
     <script src="eights.js"></script>
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
     <link rel="stylesheet" href="eights.css">
 </head>
 <body>
@@ -12,23 +13,39 @@
          style="padding-top: 10px; padding-left: 10px;">
     </svg>
     <div id="results" style="position: absolute; left: 600px; top: 20px;">
-        <span style="font: bold 30px sans-serif">Current result: <span id="current_result">0</span></span>
+        <span style>Current result: <span id="current_result">0</span></span>
         <br>
         <br>
-        <span style="font: bold 30px sans-serif">Best result: <span id="best_result">inf</span></span>
+        <span style>Best result: <span id="best_result">inf</span></span>
         <br>
         <br>
-        <span style="font: bold 30px sans-serif">Current time: <span id="stopwatch">00:00:00</span></span>
+        <span style>Current time: <span id="stopwatch">00:00:00</span></span>
         <br>
         <br>
-        <span style="font: bold 30px sans-serif">Best time: <span id="best_time">inf</span></span>
+        <span style>Best time: <span id="best_time">inf</span></span>
     </div>
     <div id="new_game" style="position: absolute; left: 600px; top: 300px;">
         <button id="new_game_button" type="button" name="start_new_game" onclick="generatingField()">Start new game</button>
     </div>
+    <div id="table_results" style="position: absolute; left: 1100px; top: 15px">
+        <table id="table_id">
+            <caption>Best results</caption>
+            <tr>
+                <th>Place</th>
+                <th>Result</th>
+            </tr>
+
+        </table>
+        <button type="button" onclick="getResults()">
+            <img src="images/icons8-refresh-16.png" style="vertical-align: middle"> Refresh
+        </button>
+        <!-- <button type="button" class="btn btn-default btn-sm">
+            <span class="glyphicon">&#xe031;</span> Refresh
+        </button> -->
+    </div>
 </body>
 <script>
-    const current_version = "v0.11";
+    const current_version = "v0.12";
     let best_result = document.getElementById("best_result");
     let best_time = document.getElementById("best_time");
     if (!localStorage.getItem("version")) {
@@ -36,7 +53,7 @@
         localStorage.setItem("version", current_version);
     } else {
         // later we can refresh some information which will be updated
-        if (current_version === localStorage.getItem("version")) {
+        if (localStorage.getItem("version") >= "v0.10") {
             best_result.innerText = localStorage.getItem("best_result");
             best_time.innerHTML = localStorage.getItem("best_time");
         }
