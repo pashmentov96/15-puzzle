@@ -25,6 +25,8 @@ function onClickImage(name, field) {
         current_result.innerText = (+current_result.innerText + 1).toString();
 
         if (isFinished(field)) {
+            addResult(+current_result.innerText);
+
             let best_result = document.getElementById("best_result");
             if (best_result.innerText === "inf" || +best_result.innerText > +current_result.innerText) {
                 best_result.innerText = current_result.innerText;
@@ -51,6 +53,7 @@ function oneMoreGame(str) {
         generatingField();
     } else {
         clearInterval(+localStorage.getItem("id_stopwatch"));
+        //console.log("We need to stop this stopwatch: " + localStorage.getItem("id_stopwatch"));
         let svg = document.getElementById("field");
         svg.setAttribute("class", "unclickable");
     }
@@ -172,7 +175,10 @@ function generatingField() {
     let start_stamp = start_time.getTime();
     localStorage.setItem("start_stamp", start_stamp.toString());
     let id = setInterval(stopwatchFunction, 1000);
+    //console.log("We start stopwatch: " + id);
     localStorage.setItem("id_stopwatch", id.toString());
+
+    getResults();
 }
 
 function generatingSequence() {
@@ -220,7 +226,7 @@ function stopwatchFunction() {
     let minutes = "0" + Math.floor((delta % 3600) / 60);
     let seconds = "0" + Math.floor(delta % 60);
 
-    if (hours >= 100) {
+    if (+hours >= 100) {
         oneMoreGame("Your time is expired. Do you want to start a new game?");
     }
 
@@ -228,3 +234,44 @@ function stopwatchFunction() {
     stopwatch.innerText = hours.slice(-2) + ":" + minutes.slice(-2) + ":" + seconds.slice(-2);
 }
 
+async function getResults() {
+    //let basic_url = "http://127.0.0.1:5000";
+    let basic_url = "http://3e6ffcea.ngrok.io";
+    let url = basic_url + "/api/get_results";
+
+    try {
+        let response = await fetch(url);
+        console.log(response.status);
+        if (response.ok) {
+            let results = await response.json();
+            let table = document.getElementById("table_id");
+            d3.select("#table_id").selectAll("tr").filter((d, i) => i > 0).remove();
+            for (let key in results) {
+                let tr = document.createElement("tr");
+                tr.innerHTML = `<td>${+key + 1}</td> <td>${results[key]}</td>`;
+                table.append(tr);
+            }
+        } else {
+            alert(response.status);
+        }
+    } catch (e) {
+        console.log("ERROR: " + e);
+    }
+}
+
+async function addResult(result) {
+    //let basic_url = "http://127.0.0.1:5000";
+    let basic_url = "http://3e6ffcea.ngrok.io";
+    let url = basic_url + "/api/add_result/" + result.toString();
+
+    try {
+        let response = await fetch(url);
+        if (response.ok) {
+            await getResults();
+        } else {
+            alert(response.status);
+        }
+    }  catch (e) {
+        console.log("ERROR: " + e);
+    }
+}
