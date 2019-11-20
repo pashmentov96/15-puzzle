@@ -250,6 +250,9 @@ async function getResults() {
                 let tr = document.createElement("tr");
                 tr.innerHTML = `<td>${+key + 1}</td> <td>${results[key]}</td>`;
                 table.append(tr);
+                if (key >= 9) {
+                    break;
+                }
             }
         } else {
             alert(response.status);
