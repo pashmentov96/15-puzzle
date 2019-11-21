@@ -234,10 +234,13 @@ function stopwatchFunction() {
     stopwatch.innerText = hours.slice(-2) + ":" + minutes.slice(-2) + ":" + seconds.slice(-2);
 }
 
+function getServerURL() {
+    // "http://127.0.0.1:5000"
+    return "https://5528c4ae.ngrok.io";
+}
+
 async function getResults(sort="score") {
-    console.log(sort);
-    //let basic_url = "http://127.0.0.1:5000";
-    let basic_url = "https://5528c4ae.ngrok.io";
+    let basic_url = getServerURL();
     let url = basic_url + "/api/get_results";
 
     let params = new URLSearchParams();
@@ -266,8 +269,7 @@ async function getResults(sort="score") {
 }
 
 async function addResult(result) {
-    //let basic_url = "http://127.0.0.1:5000";
-    let basic_url = "https://5528c4ae.ngrok.io";
+    let basic_url = getServerURL();
     let url = basic_url + "/api/add_result";
 
     try {
@@ -286,4 +288,23 @@ async function addResult(result) {
     }  catch (e) {
         console.log("ERROR: " + e);
     }
+}
+
+function checkVersion(current_version) {
+    let best_result = document.getElementById("best_result");
+    let best_time = document.getElementById("best_time");
+    if (!localStorage.getItem("version")) {
+        localStorage.clear();
+        localStorage.setItem("version", current_version);
+    } else {
+        // later we can refresh some information which will be updated
+        if (localStorage.getItem("version") >= "v0.10") {
+            best_result.innerText = localStorage.getItem("best_result");
+            best_time.innerHTML = localStorage.getItem("best_time");
+        }
+        localStorage.clear();
+        localStorage.setItem("version", current_version);
+    }
+    localStorage.setItem("best_result", best_result.innerText);
+    localStorage.setItem("best_time", best_time.innerText);
 }

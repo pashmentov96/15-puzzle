@@ -46,23 +46,7 @@
     </div>
 </body>
 <script>
-    const current_version = "v0.15";
-    let best_result = document.getElementById("best_result");
-    let best_time = document.getElementById("best_time");
-    if (!localStorage.getItem("version")) {
-        localStorage.clear();
-        localStorage.setItem("version", current_version);
-    } else {
-        // later we can refresh some information which will be updated
-        if (localStorage.getItem("version") >= "v0.10") {
-            best_result.innerText = localStorage.getItem("best_result");
-            best_time.innerHTML = localStorage.getItem("best_time");
-        }
-        localStorage.clear();
-        localStorage.setItem("version", current_version);
-    }
-    localStorage.setItem("best_result", best_result.innerText);
-    localStorage.setItem("best_time", best_time.innerText);
+    checkVersion("v0.15");
     generatingField();
 </script>
 </html>
