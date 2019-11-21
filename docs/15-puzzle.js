@@ -25,16 +25,16 @@ function onClickImage(name, field) {
         current_result.innerText = (+current_result.innerText + 1).toString();
 
         if (isFinished(field)) {
-            addResult(+current_result.innerText);
+            let best_time = document.getElementById("best_time");
+            let current_time = document.getElementById("stopwatch");
+
+            addResult({score: +current_result.innerText, time: current_time.innerText});
 
             let best_result = document.getElementById("best_result");
             if (best_result.innerText === "inf" || +best_result.innerText > +current_result.innerText) {
                 best_result.innerText = current_result.innerText;
                 localStorage.setItem("best_result", best_result.innerText);
             }
-
-            let best_time = document.getElementById("best_time");
-            let current_time = document.getElementById("stopwatch");
 
             if (best_time.innerText === "inf" || best_time.innerText > current_time.innerText) {
                 best_time.innerText = current_time.innerText;
@@ -236,7 +236,7 @@ function stopwatchFunction() {
 
 async function getResults() {
     //let basic_url = "http://127.0.0.1:5000";
-    let basic_url = "https://3e6ffcea.ngrok.io";
+    let basic_url = "https://5528c4ae.ngrok.io";
     let url = basic_url + "/api/get_results";
 
     try {
@@ -248,11 +248,8 @@ async function getResults() {
             d3.select("#table_id").selectAll("tr").filter((d, i) => i > 0).remove();
             for (let key in results) {
                 let tr = document.createElement("tr");
-                tr.innerHTML = `<td>${+key + 1}</td> <td>${results[key]}</td>`;
+                tr.innerHTML = `<td>${+key + 1}</td> <td>${results[key].score} <td>${results[key].time}</td>`;
                 table.append(tr);
-                if (key >= 9) {
-                    break;
-                }
             }
         } else {
             alert(response.status);
@@ -264,11 +261,17 @@ async function getResults() {
 
 async function addResult(result) {
     //let basic_url = "http://127.0.0.1:5000";
-    let basic_url = "https://3e6ffcea.ngrok.io";
-    let url = basic_url + "/api/add_result/" + result.toString();
+    let basic_url = "https://5528c4ae.ngrok.io";
+    let url = basic_url + "/api/add_result";
 
     try {
-        let response = await fetch(url);
+        let response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify(result)
+        });
         if (response.ok) {
             await getResults();
         } else {
