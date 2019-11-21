@@ -234,10 +234,16 @@ function stopwatchFunction() {
     stopwatch.innerText = hours.slice(-2) + ":" + minutes.slice(-2) + ":" + seconds.slice(-2);
 }
 
-async function getResults() {
+async function getResults(sort="score") {
+    console.log(sort);
     //let basic_url = "http://127.0.0.1:5000";
     let basic_url = "https://5528c4ae.ngrok.io";
     let url = basic_url + "/api/get_results";
+
+    let params = new URLSearchParams();
+    params.append("sort", sort);
+
+    url += "?" + params;
 
     try {
         let response = await fetch(url);

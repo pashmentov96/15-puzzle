@@ -32,8 +32,8 @@
             <caption>Best results</caption>
             <tr>
                 <th>Place</th>
-                <th>Result</th>
-                <th>Time</th>
+                <th onclick="getResults('score')">Result</th>
+                <th onclick="getResults('time')">Time</th>
             </tr>
 
         </table>
@@ -46,7 +46,7 @@
     </div>
 </body>
 <script>
-    const current_version = "v0.14";
+    const current_version = "v0.15";
     let best_result = document.getElementById("best_result");
     let best_time = document.getElementById("best_time");
     if (!localStorage.getItem("version")) {
