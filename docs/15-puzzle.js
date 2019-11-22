@@ -249,36 +249,47 @@ function getServerURL() {
     return "https://8df74a82.ngrok.io";
 }
 
-async function getResults(sort="score") {
-    let basic_url = getServerURL();
-    let url = basic_url + "/api/get_results";
+function drawResults(name, results) {
+    let table = document.getElementById("table_id_" + name);
+    d3.select("#table_id_" + name).selectAll("tr").filter((d, i) => i > 0).remove();
+    for (let key in results) {
+        let tr = document.createElement("tr");
+        tr.innerHTML = `<td>${+key + 1}</td> <td>${results[key].score} <td>${results[key].time}</td>`;
+        table.append(tr);
+    }
+}
 
-    let params = new URLSearchParams();
-    params.append("sort", sort);
+async function getResults(name="local", sort="score") {
+    if (name === "local") {
+        let results = await getResultsDB("by_" + sort);
+        drawResults(name, results);
+    } else {
+        let basic_url = getServerURL();
+        let url = basic_url + "/api/get_results";
 
-    url += "?" + params;
+        let params = new URLSearchParams();
+        params.append("sort", sort);
 
-    try {
-        let response = await fetch(url);
-        console.log(response.status);
-        if (response.ok) {
-            let results = await response.json();
-            let table = document.getElementById("table_id");
-            d3.select("#table_id").selectAll("tr").filter((d, i) => i > 0).remove();
-            for (let key in results) {
-                let tr = document.createElement("tr");
-                tr.innerHTML = `<td>${+key + 1}</td> <td>${results[key].score} <td>${results[key].time}</td>`;
-                table.append(tr);
+        url += "?" + params;
+
+        try {
+            let response = await fetch(url);
+            console.log(response.status);
+            if (response.ok) {
+                let results = await response.json();
+                drawResults(name, results);
+            } else {
+                alert(response.status);
             }
-        } else {
-            alert(response.status);
+        } catch (e) {
+            console.log("ERROR: " + e);
         }
-    } catch (e) {
-        console.log("ERROR: " + e);
     }
 }
 
 async function addResult(result) {
+    await addResultDB(result);
+
     let basic_url = getServerURL();
     let url = basic_url + "/api/add_result";
 
@@ -308,7 +319,7 @@ function checkVersion(current_version) {
         localStorage.setItem("version", current_version);
     } else {
         // later we can refresh some information which will be updated
-        if (localStorage.getItem("version") >= "v0.10") {
+        if (localStorage.getItem("version") >= "v0.20") {
             best_result.innerText = localStorage.getItem("best_result");
             best_time.innerHTML = localStorage.getItem("best_time");
         }
@@ -317,4 +328,22 @@ function checkVersion(current_version) {
     }
     localStorage.setItem("best_result", best_result.innerText);
     localStorage.setItem("best_time", best_time.innerText);
+}
+
+function onTabClick(name) {
+    let tabcontent = document.getElementsByClassName("tabcontent");
+    for (let i = 0; i < tabcontent.length; ++i) {
+        tabcontent[i].style.display = "none";
+    }
+
+    let tablinks = document.getElementsByClassName("tablinks");
+    for (let i = 0; i < tablinks.length; ++i) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+
+    document.getElementById("table_id_" + name).style.display = "block";
+    document.getElementById("tab_" + name).className += " active";
+
+    getResults(name);
+
 }
