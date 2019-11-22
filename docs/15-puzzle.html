@@ -5,6 +5,8 @@
     <title>15-puzzle</title>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.5.0/d3.js"></script>
     <script src="15-puzzle.js"></script>
+    <script src="database.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/idb@3.0.2/build/idb.min.js"></script>
     <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
     <link rel="stylesheet" href="15-puzzle.css">
 </head>
@@ -13,30 +15,47 @@
          style="padding-top: 10px; padding-left: 10px;">
     </svg>
     <div id="results" style="position: absolute; left: 600px; top: 20px;">
-        <span style>Current result: <span id="current_result">0</span></span>
+        <span>Current result: <span id="current_result">0</span></span>
         <br>
         <br>
-        <span style>Best result: <span id="best_result">inf</span></span>
+        <span>Best result: <span id="best_result">inf</span></span>
         <br>
         <br>
-        <span style>Current time: <span id="stopwatch">00:00:00</span></span>
+        <span>Current time: <span id="stopwatch">00:00:00</span></span>
         <br>
         <br>
-        <span style>Best time: <span id="best_time">inf</span></span>
+        <span>Best time: <span id="best_time">inf</span></span>
     </div>
     <div id="new_game" style="position: absolute; left: 600px; top: 300px;">
         <button id="new_game_button" type="button" name="start_new_game" onclick="generatingField()">Start new game</button>
     </div>
     <div id="table_results" style="position: absolute; left: 1100px; top: 15px">
-        <table id="table_id">
-            <caption>Best results</caption>
+        <span style="font: bold 30px sans-serif; margin: auto; display:table"><U> Results </U></span>
+
+        <div class="tab">
+            <button id="tab_local" class="tablinks" onclick="onTabClick('local')">Local results</button>
+            <button id="tab_global" class="tablinks" onclick="onTabClick('global')">Global results</button>
+        </div>
+
+        <table id="table_id_global" class="tabcontent">
+            <caption>All best results</caption>
             <tr>
                 <th>Place</th>
-                <th class="sort" onclick="getResults('score')">Result</th>
-                <th class="sort" onclick="getResults('time')">Time</th>
+                <th class="sort" onclick="getResults('global', 'score')">Result</th>
+                <th class="sort" onclick="getResults('global', 'time')">Time</th>
             </tr>
 
         </table>
+
+        <table id="table_id_local" class="tabcontent">
+            <caption>Your best result</caption>
+            <tr>
+                <th>Place</th>
+                <th class="sort" onclick="getResults('local', 'score')">Result</th>
+                <th class="sort" onclick="getResults('local', 'time')">Time</th>
+            </tr>
+        </table>
+
         <button type="button" onclick="getResults()">
             <img src="images/icons8-refresh-16.png" style="vertical-align: middle"> Refresh
         </button>
@@ -46,7 +65,9 @@
     </div>
 </body>
 <script>
-    checkVersion("v0.16");
+    checkVersion("v0.20");
+    initDB();
+    document.getElementById("tab_local").click();
     generatingField();
 </script>
 </html>
