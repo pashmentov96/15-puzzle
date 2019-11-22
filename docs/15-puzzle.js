@@ -236,7 +236,7 @@ function stopwatchFunction() {
 
 function getServerURL() {
     // "http://127.0.0.1:5000"
-    return "https://5528c4ae.ngrok.io";
+    return "https://8df74a82.ngrok.io";
 }
 
 async function getResults(sort="score") {

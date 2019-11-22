@@ -1,12 +1,10 @@
-.text_cell
-{
+.text_cell {
     font: italic 80px Serif;
     fill: red;
     //pointer-events: none;
 }
 
-.rect_cell
-{
+.rect_cell {
     width: 125px;
     height: 125px;
     fill: aqua;
@@ -14,8 +12,7 @@
     stroke-width: 2
 }
 
-.rect_field
-{
+.rect_field {
     x: 0px;
     y: 0px;
     width: 500px;
@@ -24,8 +21,7 @@
     stroke: black;
 }
 
-.unclickable
-{
+.unclickable {
     pointer-events: none;
 }
 
@@ -41,8 +37,7 @@ svg text::selection {
     background: none;
 }
 
-#new_game_button
-{
+#new_game_button {
     font: bold 25px sans-serif;
     color: black;
 }
@@ -51,8 +46,7 @@ svg text::selection {
     font-family: sans-serif;
 }*/
 
-#results span
-{
+#results span {
     font: bold 30px sans-serif
 }
 
@@ -70,6 +64,10 @@ td, th {
 
 th {
     background-color: rgb(235,235,235);
+}
+
+.sort {
+    cursor: pointer;
 }
 
 td {
