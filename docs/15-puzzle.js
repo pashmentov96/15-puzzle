@@ -52,8 +52,10 @@ function oneMoreGame(str) {
     if (result) {
         generatingField();
     } else {
+        console.log("We are going to stop this stopwatch: " + localStorage.getItem("id_stopwatch"));
         clearInterval(+localStorage.getItem("id_stopwatch"));
-        //console.log("We need to stop this stopwatch: " + localStorage.getItem("id_stopwatch"));
+        localStorage.removeItem("id_stopwatch");
+
         let svg = document.getElementById("field");
         svg.setAttribute("class", "unclickable");
     }
@@ -84,6 +86,11 @@ function moveCell(dx, dy, field, position) {
 }
 
 function generatingField() {
+    if (localStorage.getItem("id_stopwatch")) {
+        console.log("We need to stop this watch, because nobody else can't do it :D");
+        clearInterval(+localStorage.getItem("id_stopwatch"));
+        localStorage.removeItem("id_stopwatch");
+    }
 
     let current_result = document.getElementById("current_result");
     current_result.innerText = "0";
@@ -174,8 +181,9 @@ function generatingField() {
     let start_time = new Date();
     let start_stamp = start_time.getTime();
     localStorage.setItem("start_stamp", start_stamp.toString());
+    console.log("START_TIME: ", start_time);
     let id = setInterval(stopwatchFunction, 1000);
-    //console.log("We start stopwatch: " + id);
+    console.log("We start stopwatch: " + id);
     localStorage.setItem("id_stopwatch", id.toString());
 
     getResults();
@@ -219,7 +227,8 @@ function stopwatchFunction() {
     let start_stamp = localStorage.getItem("start_stamp");
     let start_time = new Date(+start_stamp);
 
-    let delta = new Date().getTime() - start_time;
+    let now = new Date();
+    let delta = now.getTime() - start_time;
 
     delta = Math.floor(delta / 1000);
     let hours = "0" + Math.floor(delta / (60 * 60));
@@ -227,6 +236,7 @@ function stopwatchFunction() {
     let seconds = "0" + Math.floor(delta % 60);
 
     if (+hours >= 100) {
+        alert("NOW_TIME: " + now);
         oneMoreGame("Your time is expired. Do you want to start a new game?");
     }
 
