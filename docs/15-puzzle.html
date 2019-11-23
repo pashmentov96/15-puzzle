@@ -11,10 +11,10 @@
     <link rel="stylesheet" href="15-puzzle.css">
 </head>
 <body>
-    <svg id="field" width="600" height="600" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+    <svg id="field" width="500" height="500" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
          style="padding-top: 10px; padding-left: 10px;">
     </svg>
-    <div id="results" style="position: absolute; left: 600px; top: 20px;">
+    <div id="results" style="position: absolute; left: 550px; top: 20px;">
         <span>Current result: <span id="current_result">0</span></span>
         <br>
         <br>
@@ -26,10 +26,10 @@
         <br>
         <span>Best time: <span id="best_time">inf</span></span>
     </div>
-    <div id="new_game" style="position: absolute; left: 600px; top: 300px;">
+    <div id="new_game" style="position: absolute; left: 550px; top: 300px;">
         <button id="new_game_button" type="button" name="start_new_game" onclick="generatingField()">Start new game</button>
     </div>
-    <div id="table_results" style="position: absolute; left: 1100px; top: 15px">
+    <div id="table_results" style="position: absolute; left: 1000px; top: 15px">
         <span style="font: bold 30px sans-serif; margin: auto; display:table"><U> Results </U></span>
 
         <div class="tab">

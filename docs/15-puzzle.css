@@ -1,7 +1,6 @@
 .text_cell {
     font: italic 80px Serif;
     fill: red;
-    //pointer-events: none;
 }
 
 .rect_cell {
@@ -9,7 +8,8 @@
     height: 125px;
     fill: aqua;
     stroke: darkgray;
-    stroke-width: 2
+    stroke-width: 2;
+    text-align: center;
 }
 
 .rect_field {

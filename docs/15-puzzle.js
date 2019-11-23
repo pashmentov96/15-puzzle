@@ -169,9 +169,9 @@ function generatingField() {
             let text = document.createElementNS("http://www.w3.org/2000/svg", "text");
             text.setAttribute("id", "text_" + name);
             text.setAttribute("class", "text_cell");
-            text.setAttribute("x", (dx + 125 * x).toString());
             text.setAttribute("y", (dy + 125 * y).toString());
-            text.innerHTML = field[i];
+            text.setAttribute("transform", "translate(" + (62 + 125 * x) + ")");
+            text.innerHTML = "<tspan x='0' text-anchor='middle'>" + field[i] + "</tspan>";
 
             new_svg.append(text);
         }
@@ -185,8 +185,6 @@ function generatingField() {
     let id = setInterval(stopwatchFunction, 1000);
     console.log("We start stopwatch: " + id);
     localStorage.setItem("id_stopwatch", id.toString());
-
-    getResults();
 }
 
 function generatingSequence() {
