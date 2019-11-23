@@ -11,8 +11,13 @@ function onClickImage(name, field) {
         rect.setAttribute("x", +rect.getAttribute("x") + 125 * (empty_x - coord_cell_x));
         rect.setAttribute("y", +rect.getAttribute("y") + 125 * (empty_y - coord_cell_y));
 
-        text.setAttribute("x", +text.getAttribute("x") + 125 * (empty_x - coord_cell_x));
         text.setAttribute("y", +text.getAttribute("y") + 125 * (empty_y - coord_cell_y));
+
+        let text_transform = text.getAttribute("transform").slice(10, -1);
+
+        text_transform = "translate(" + (+text_transform + 125 * (empty_x - coord_cell_x)) + ")";
+
+        text.setAttribute("transform", text_transform);
 
         localStorage.setItem("x_empty", coord_cell_x.toString());
         localStorage.setItem("y_empty", coord_cell_y.toString());
