@@ -249,7 +249,7 @@ function stopwatchFunction() {
 
 function getServerURL() {
     // "http://127.0.0.1:5000"
-    return "https://8df74a82.ngrok.io";
+    return "https://3aa35094.ngrok.io";
 }
 
 function drawResults(name, results) {
@@ -304,14 +304,10 @@ async function addResult(result) {
             },
             body: JSON.stringify(result)
         });
-        if (response.ok) {
-            await getResults();
-        } else {
-            alert(response.status);
-        }
     }  catch (e) {
         console.log("ERROR: " + e);
     }
+    await getResults();
 }
 
 function checkVersion(current_version) {
