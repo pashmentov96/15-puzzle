@@ -322,8 +322,17 @@ function checkVersion(current_version) {
             best_result.innerText = localStorage.getItem("best_result");
             best_time.innerHTML = localStorage.getItem("best_time");
         }
+        let start, finish;
+        if (localStorage.getItem("start_segment")) {
+            start = localStorage.getItem("start_segment");
+            finish = localStorage.getItem("finish_segment");
+        }
         localStorage.clear();
         localStorage.setItem("version", current_version);
+        if (start) {
+            localStorage.setItem("start_segment", start);
+            localStorage.setItem("finish_segment", finish);
+        }
     }
     localStorage.setItem("best_result", best_result.innerText);
     localStorage.setItem("best_time", best_time.innerText);
@@ -367,11 +376,12 @@ function setUpModals() {
     let modal = document.getElementById("my_modal");
     let button_about = document.getElementById("open_about_button");
     let button_achievements = document.getElementById("open_achievements_button");
+    let button_statistics = document.getElementById("open_statistics_button");
     let span = document.getElementsByClassName("close")[0];
 
     button_about.onclick = function() {
         d3.select("#modal_header").selectAll("h2").text("About");
-        d3.select("#modal_body").html("")
+        d3.select("#modal_body").html("");
 
         let modal_body = document.getElementById("modal_body");
         let p = document.createElement("p");
@@ -393,6 +403,38 @@ function setUpModals() {
         modal.style.display = "block";
     };
 
+    button_statistics.onclick = async function() {
+        let segments = await getTimeSegments();
+
+        console.log(segments);
+
+        let now = new Date();
+        segments.push({start: localStorage.getItem("start_segment"), finish: now.getTime().toString()});
+
+        let all_time_in_game = 0;
+
+        for (let i = 0; i < segments.length; ++i) {
+            all_time_in_game += +segments[i].finish - +segments[i].start;
+        }
+
+        console.log(all_time_in_game);
+
+        all_time_in_game = Math.floor(all_time_in_game / 1000);
+        let hours = "0" + Math.floor(all_time_in_game / (60 * 60));
+        let minutes = "0" + Math.floor((all_time_in_game % 3600) / 60);
+        let seconds = "0" + Math.floor(all_time_in_game % 60);
+
+        d3.select("#modal_header").selectAll("h2").text("Statistics");
+        d3.select("#modal_body").html("");
+
+        let modal_body = document.getElementById("modal_body");
+
+        let p = document.createElement("p");
+        p.innerText = "Your time in game: " + hours.slice(-2) + ":" + minutes.slice(-2) + ":" + seconds.slice(-2);
+        modal_body.append(p);
+
+        modal.style.display = "block";
+    };
 
 
     span.onclick = function() {
@@ -404,5 +446,22 @@ function setUpModals() {
             modal.style.display = "none";
         }
     };
+}
 
+function initWindow() {
+    window.onload = function () {
+        if (localStorage.getItem("start_segment")) {
+            let start = localStorage.getItem("start_segment");
+            let finish = localStorage.getItem("finish_segment");
+
+            addTimeSegment(start, finish);
+        }
+        let now = new Date();
+        localStorage.setItem("start_segment", now.getTime().toString());
+    };
+
+    window.onbeforeunload = function () {
+        let now = new Date();
+        localStorage.setItem("finish_segment", now.getTime().toString());
+    };
 }

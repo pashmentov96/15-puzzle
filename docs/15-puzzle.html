@@ -31,11 +31,14 @@
         <button id="new_game_button" type="button" name="start_new_game" onclick="generatingField()">Start new game</button>
     </div>
     <div style="position: absolute; left: 1000px; top: 15px; ">
-        <button type="button" id="open_about_button" class="open_model">
+        <button type="button" id="open_about_button" class="open_modal">
             About
         </button>
-        <button type="button" id="open_achievements_button" class="open_model">
+        <button type="button" id="open_achievements_button" class="open_modal">
             Achievements
+        </button>
+        <button type="button" id="open_statistics_button" class="open_modal">
+            Statistics
         </button>
     </div>
     <div id="table_results" style="position: absolute; left: 1000px; top: 65px">
@@ -86,10 +89,11 @@
     </div>
 </body>
 <script>
-    checkVersion("v0.21");
+    checkVersion("v0.22");
     setUpModals();
     initDB();
     document.getElementById("tab_local").click();
     generatingField();
+    initWindow();
 </script>
 </html>
