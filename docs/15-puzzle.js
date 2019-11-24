@@ -346,3 +346,51 @@ function onTabClick(name) {
     getResults(name);
 
 }
+
+function setUpModals() {
+    let modal = document.getElementById("my_modal");
+    let button_about = document.getElementById("open_about_button");
+    let button_achievements = document.getElementById("open_achievements_button");
+    let span = document.getElementsByClassName("close")[0];
+
+    button_about.onclick = function() {
+        d3.select("#modal_header").selectAll("h2").text("About");
+        d3.select("#modal_body").html("")
+
+        let modal_body = document.getElementById("modal_body");
+        let p = document.createElement("p");
+        p.innerText = `1. To move the cells in the game you can use your mouse:
+        click on the cell which you want to move (it must be next to the empty cell) and it will be moved to the empty cell.
+
+        2. Arrows allow move the cells to the empty cell if it possible. Also you can use WASD controls instead arrows.
+        `;
+        modal_body.append(p);
+
+        modal.style.display = "block";
+    };
+
+    button_achievements.onclick = function() {
+        d3.select("#modal_header").selectAll("h2").text("Achievements: 1/1");
+        d3.select("#modal_body").html("");
+
+        let modal_body = document.getElementById("modal_body");
+        let p = document.createElement("p");
+        p.innerText = "1. 'First discover': you opened achievements";
+        modal_body.append(p);
+
+        modal.style.display = "block";
+    };
+
+
+
+    span.onclick = function() {
+        modal.style.display = "none";
+    };
+
+    window.onclick = function(event) {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    };
+
+}
