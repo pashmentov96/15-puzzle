@@ -358,6 +358,8 @@ function getAboutText() {
         4. There are two types of results:
           -- Local results: only your results and they should be always accessible when you load the page.
           -- Global results: results of all users of this game. These results can be hidden because of problems with connection or server's problems
+        
+        TODO: achievements(local), back move, timer
         `
 }
 
