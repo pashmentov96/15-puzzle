@@ -347,6 +347,20 @@ function onTabClick(name) {
 
 }
 
+function getAboutText() {
+    return `1. To move the cells in the game you can use your mouse:
+        click on the cell which you want to move (it must be next to the empty cell) and it will be moved to the empty cell.
+
+        2. Arrows allow move the cells to the empty cell if it possible. Also you can use WASD controls instead arrows.
+        
+        3. To start new game just push the "Start new game" button near the field or refresh the page with the game.
+        
+        4. There are two types of results:
+          -- Local results: only your results and they should be always accessible when you load the page.
+          -- Global results: results of all users of this game. These results can be hidden because of problems with connection or server's problems
+        `
+}
+
 function setUpModals() {
     let modal = document.getElementById("my_modal");
     let button_about = document.getElementById("open_about_button");
@@ -359,11 +373,7 @@ function setUpModals() {
 
         let modal_body = document.getElementById("modal_body");
         let p = document.createElement("p");
-        p.innerText = `1. To move the cells in the game you can use your mouse:
-        click on the cell which you want to move (it must be next to the empty cell) and it will be moved to the empty cell.
-
-        2. Arrows allow move the cells to the empty cell if it possible. Also you can use WASD controls instead arrows.
-        `;
+        p.innerText = getAboutText();
         modal_body.append(p);
 
         modal.style.display = "block";
