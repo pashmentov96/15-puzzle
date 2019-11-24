@@ -385,7 +385,7 @@ function setUpModals() {
 
         let modal_body = document.getElementById("modal_body");
         let p = document.createElement("p");
-        p.innerText = "1. 'First discover': you opened achievements";
+        p.innerText = "1. 'First discovery': you opened achievements";
         modal_body.append(p);
 
         modal.style.display = "block";
