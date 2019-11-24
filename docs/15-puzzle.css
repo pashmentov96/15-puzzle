@@ -42,10 +42,6 @@ svg text::selection {
     color: black;
 }
 
-/*html {
-    font-family: sans-serif;
-}*/
-
 #results span {
     font: bold 30px sans-serif
 }

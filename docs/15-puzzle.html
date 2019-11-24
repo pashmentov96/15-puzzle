@@ -9,6 +9,7 @@
     <script src="https://cdn.jsdelivr.net/npm/idb@3.0.2/build/idb.min.js"></script>
     <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
     <link rel="stylesheet" href="15-puzzle.css">
+    <link rel="stylesheet" href="modal_box.css">
 </head>
 <body>
     <svg id="field" width="500" height="500" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -29,7 +30,15 @@
     <div id="new_game" style="position: absolute; left: 550px; top: 300px;">
         <button id="new_game_button" type="button" name="start_new_game" onclick="generatingField()">Start new game</button>
     </div>
-    <div id="table_results" style="position: absolute; left: 1000px; top: 15px">
+    <div style="position: absolute; left: 1000px; top: 15px; ">
+        <button type="button" id="open_about_button" class="open_model">
+            About
+        </button>
+        <button type="button" id="open_achievements_button" class="open_model">
+            Achievements
+        </button>
+    </div>
+    <div id="table_results" style="position: absolute; left: 1000px; top: 65px">
         <span style="font: bold 30px sans-serif; margin: auto; display:table"><U> Results </U></span>
 
         <div class="tab">
@@ -63,9 +72,22 @@
             <span class="glyphicon">&#xe031;</span> Refresh
         </button> -->
     </div>
+    <div id="my_modal" class="modal">
+        <div class="modal_content">
+            <div id="modal_header" class="modal_header">
+                <span class="close">&times;</span>
+                <h2>Modal header</h2>
+            </div>
+            <div id="modal_body" class="modal_body">
+                <p>Some text in the Modal Body</p>
+                <p>Some other text...</p>
+            </div>
+        </div>
+    </div>
 </body>
 <script>
     checkVersion("v0.20");
+    setUpModals();
     initDB();
     document.getElementById("tab_local").click();
     generatingField();
