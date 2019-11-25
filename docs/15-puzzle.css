@@ -43,7 +43,7 @@ svg text::selection {
 }
 
 #results span {
-    font: bold 30px sans-serif
+    font: bold 25px sans-serif
 }
 
 table {
@@ -117,6 +117,11 @@ caption {
 .tabcontent {
     display: none;
     padding: 6px 12px;
+    border-style: none;
+}
+
+.container {
+    text-align: center;
     border: 1px solid #ccc;
     border-top: none;
 }

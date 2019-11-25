@@ -1,6 +1,7 @@
 .open_modal {
-    font: bold 19px sans-serif;
+    font: bold 18px sans-serif;
     color: black;
+    float: left;
 }
 
 .modal {
