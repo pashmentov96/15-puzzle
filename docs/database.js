@@ -33,6 +33,15 @@ async function getTimeSegments() {
     return request;
 }
 
+async function clearTimeSegments() {
+    localStorage.removeItem("start_segment");
+    localStorage.removeItem("finish_segment");
+    let db = await idb.openDb("resultsDB", 2);
+    let transaction = db.transaction("time_segments_table", "readwrite");
+    let time_segments = transaction.objectStore("time_segments_table");
+    time_segments.clear();
+}
+
 async function addResultDB(result) {
     let db = await idb.openDb("resultsDB", 2);
     let transaction = db.transaction("results_table", "readwrite");

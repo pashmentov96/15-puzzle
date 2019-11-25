@@ -322,6 +322,9 @@ function checkVersion(current_version) {
             best_result.innerText = localStorage.getItem("best_result");
             best_time.innerHTML = localStorage.getItem("best_time");
         }
+        if (localStorage.getItem("version") < "v0.23") {
+            clearTimeSegments();
+        }
         let start, finish;
         if (localStorage.getItem("start_segment")) {
             start = localStorage.getItem("start_segment");
@@ -349,7 +352,7 @@ function onTabClick(name) {
         tablinks[i].className = tablinks[i].className.replace(" active", "");
     }
 
-    document.getElementById("table_id_" + name).style.display = "block";
+    document.getElementById("table_id_" + name).style.display = "inline-block";
     document.getElementById("tab_" + name).className += " active";
 
     getResults(name);
@@ -430,7 +433,11 @@ function setUpModals() {
         let modal_body = document.getElementById("modal_body");
 
         let p = document.createElement("p");
-        p.innerText = "Your time in game: " + hours.slice(-2) + ":" + minutes.slice(-2) + ":" + seconds.slice(-2);
+        if (all_time_in_game >= 0) {
+            p.innerText = "Your time in game: " + hours.slice(-2) + ":" + minutes.slice(-2) + ":" + seconds.slice(-2);
+        } else {
+            p.innerText = "Sorry, we can't calculate your time because of some bugs";
+        }
         modal_body.append(p);
 
         modal.style.display = "block";
@@ -454,7 +461,13 @@ function initWindow() {
             let start = localStorage.getItem("start_segment");
             let finish = localStorage.getItem("finish_segment");
 
-            addTimeSegment(start, finish);
+            if (start > finish) {
+                console.log("ALARM!");
+                console.log(new Date(+start));
+                console.log(new Date(+finish));
+            } else {
+                addTimeSegment(start, finish);
+            }
         }
         let now = new Date();
         localStorage.setItem("start_segment", now.getTime().toString());
