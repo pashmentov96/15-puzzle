@@ -30,7 +30,7 @@
     <div id="new_game" style="position: absolute; left: 550px; top: 300px;">
         <button id="new_game_button" type="button" name="start_new_game" onclick="generatingField()">Start new game</button>
     </div>
-    <div style="position: absolute; left: 1000px; top: 15px; ">
+    <div style="position: absolute; left: 875px; top: 15px; ">
         <button type="button" id="open_about_button" class="open_modal">
             About
         </button>
@@ -41,32 +41,36 @@
             Statistics
         </button>
     </div>
-    <div id="table_results" style="position: absolute; left: 1000px; top: 65px">
-        <span style="font: bold 30px sans-serif; margin: auto; display:table"><U> Results </U></span>
+    <div id="table_results" style="position: absolute; left: 920px; top: 55px;">
+        <span style="font: bold 30px sans-serif; margin: auto; display:table; padding-top: 15px"><U> Results </U></span>
 
         <div class="tab">
             <button id="tab_local" class="tablinks" onclick="onTabClick('local')">Local results</button>
             <button id="tab_global" class="tablinks" onclick="onTabClick('global')">Global results</button>
         </div>
 
-        <table id="table_id_global" class="tabcontent">
-            <caption>All best results</caption>
-            <tr>
-                <th>Place</th>
-                <th class="sort" onclick="getResults('global', 'score')">Result</th>
-                <th class="sort" onclick="getResults('global', 'time')">Time</th>
-            </tr>
+        <div class="container">
+            <table id="table_id_global" class="tabcontent">
+                <caption>All best results</caption>
+                <tr>
+                    <th>Place</th>
+                    <th class="sort" onclick="getResults('global', 'score')">Result</th>
+                    <th class="sort" onclick="getResults('global', 'time')">Time</th>
+                </tr>
 
-        </table>
+            </table>
+        </div>
 
-        <table id="table_id_local" class="tabcontent">
-            <caption>Your best result</caption>
-            <tr>
-                <th>Place</th>
-                <th class="sort" onclick="getResults('local', 'score')">Result</th>
-                <th class="sort" onclick="getResults('local', 'time')">Time</th>
-            </tr>
-        </table>
+        <div class="container">
+            <table id="table_id_local" class="tabcontent">
+                <caption>Your best result</caption>
+                <tr>
+                    <th>Place</th>
+                    <th class="sort" onclick="getResults('local', 'score')">Result</th>
+                    <th class="sort" onclick="getResults('local', 'time')">Time</th>
+                </tr>
+            </table>
+        </div>
 
         <button type="button" onclick="getResults()">
             <img src="images/icons8-refresh-16.png" style="vertical-align: middle"> Refresh
@@ -89,7 +93,7 @@
     </div>
 </body>
 <script>
-    checkVersion("v0.22");
+    checkVersion("v0.23");
     setUpModals();
     initDB();
     document.getElementById("tab_local").click();
