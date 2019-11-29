@@ -261,7 +261,7 @@ function drawResults(name, results) {
 
 async function getResults(name="local", sort="score") {
     if (name === "local") {
-        getResultsDB("by_" + sort).then(results => drawResults(name, results));
+        getResultsDB("by_" + sort).then(results => drawResults(name, (results.length > 10 ? results.slice(0, 10) : results)));
     } else {
         let basic_url = getServerURL();
         let url = basic_url + "/api/get_results";
