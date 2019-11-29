@@ -99,6 +99,7 @@ function generatingField() {
 
     let current_result = document.getElementById("current_result");
     current_result.innerText = "0";
+
     let field = generatingSequence();
 
     let position = {};
@@ -183,11 +184,14 @@ function generatingField() {
 
         svg.append(new_svg);
     }
+    let current_time = document.getElementById("stopwatch");
+    current_time.innerText = "00:00:00";
+
     let start_time = new Date();
     let start_stamp = start_time.getTime();
-    localStorage.setItem("start_stamp", start_stamp.toString());
     console.log("START_TIME: ", start_time);
-    let id = setInterval(stopwatchFunction, 1000);
+
+    let id = setInterval(stopwatchFunction, 1000, start_stamp);
     console.log("We start stopwatch: " + id);
     localStorage.setItem("id_stopwatch", id.toString());
 }
@@ -226,8 +230,7 @@ function shuffle(array) {
     }
 }
 
-function stopwatchFunction() {
-    let start_stamp = localStorage.getItem("start_stamp");
+function stopwatchFunction(start_stamp) {
     let start_time = new Date(+start_stamp);
 
     let now = new Date();
