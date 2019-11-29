@@ -12,37 +12,43 @@
     <link rel="stylesheet" href="modal_box.css">
 </head>
 <body>
-    <svg id="field" width="500" height="500" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-         style="padding-top: 10px; padding-left: 10px;">
-    </svg>
-    <div id="results" style="position: absolute; left: 550px; top: 20px;">
-        <span>Current result: <span id="current_result">0</span></span>
-        <br>
-        <br>
-        <span>Best result: <span id="best_result">inf</span></span>
-        <br>
-        <br>
-        <span>Current time: <span id="stopwatch">00:00:00</span></span>
-        <br>
-        <br>
-        <span>Best time: <span id="best_time">inf</span></span>
+    <div id="header">
+        <div style="height: 100%">
+            <img src="images/icon-15-puzzle.png" style="height: 100%">
+        </div>
+        <div id="header_tabs">
+            <button type="button" id="open_about_button" class="open_modal">
+                About
+            </button>
+            <button type="button" id="open_achievements_button" class="open_modal">
+                Achievements
+            </button>
+            <button type="button" id="open_statistics_button" class="open_modal">
+                Statistics
+            </button>
+        </div>
     </div>
-    <div id="new_game" style="position: absolute; left: 550px; top: 300px;">
-        <button id="new_game_button" type="button" name="start_new_game" onclick="generatingField()">Start new game</button>
+    <div id="game_body">
+        <svg id="field" width="500" height="500" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        </svg>
+        <div id="results">
+            <span>Current result: <span id="current_result">0</span></span>
+            <br>
+            <br>
+            <span>Best result: <span id="best_result">inf</span></span>
+            <br>
+            <br>
+            <span>Current time: <span id="stopwatch">00:00:00</span></span>
+            <br>
+            <br>
+            <span>Best time: <span id="best_time">inf</span></span>
+            <div id="new_game">
+                <button id="new_game_button" type="button" name="start_new_game" onclick="generatingField()">Start new game</button>
+            </div>
+        </div>
     </div>
-    <div style="position: absolute; left: 875px; top: 15px; ">
-        <button type="button" id="open_about_button" class="open_modal">
-            About
-        </button>
-        <button type="button" id="open_achievements_button" class="open_modal">
-            Achievements
-        </button>
-        <button type="button" id="open_statistics_button" class="open_modal">
-            Statistics
-        </button>
-    </div>
-    <div id="table_results" style="position: absolute; left: 920px; top: 55px;">
-        <span style="font: bold 30px sans-serif; margin: auto; display:table; padding-top: 15px"><U> Results </U></span>
+    <div id="table_results">
+        <span style="font: bold 30px sans-serif; margin: auto; display:table; margin-top: 10px"><U> Results </U></span>
 
         <div class="tab">
             <button id="tab_local" class="tablinks" onclick="onTabClick('local')">Local results</button>

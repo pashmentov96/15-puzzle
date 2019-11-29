@@ -1,7 +1,7 @@
 .open_modal {
     font: bold 18px sans-serif;
     color: black;
-    float: left;
+    cursor: pointer;
 }
 
 .modal {
