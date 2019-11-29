@@ -8,10 +8,10 @@ function onClickImage(name, field) {
     let empty_x = +localStorage.getItem("x_empty");
     let empty_y = +localStorage.getItem("y_empty");
     if (Math.abs(coord_cell_x - empty_x) + Math.abs(coord_cell_y - empty_y) === 1) {
-        rect.setAttribute("x", +rect.getAttribute("x") + 125 * (empty_x - coord_cell_x));
-        rect.setAttribute("y", +rect.getAttribute("y") + 125 * (empty_y - coord_cell_y));
+        rect.setAttribute("x", (+rect.getAttribute("x") + 125 * (empty_x - coord_cell_x)).toString());
+        rect.setAttribute("y", (+rect.getAttribute("y") + 125 * (empty_y - coord_cell_y)).toString());
 
-        text.setAttribute("y", +text.getAttribute("y") + 125 * (empty_y - coord_cell_y));
+        text.setAttribute("y", (+text.getAttribute("y") + 125 * (empty_y - coord_cell_y)).toString());
 
         let text_transform = text.getAttribute("transform").slice(10, -1);
 
@@ -233,23 +233,17 @@ function stopwatchFunction() {
     let now = new Date();
     let delta = now.getTime() - start_time;
 
-    delta = Math.floor(delta / 1000);
-    let hours = "0" + Math.floor(delta / (60 * 60));
-    let minutes = "0" + Math.floor((delta % 3600) / 60);
-    let seconds = "0" + Math.floor(delta % 60);
-
+    let hours = Math.floor(delta / (60 * 60 * 1000));
     if (+hours >= 100) {
-        alert("NOW_TIME: " + now);
         oneMoreGame("Your time is expired. Do you want to start a new game?");
     }
 
     let stopwatch = document.getElementById("stopwatch");
-    stopwatch.innerText = hours.slice(-2) + ":" + minutes.slice(-2) + ":" + seconds.slice(-2);
+    stopwatch.innerText = toTimeString(delta);
 }
 
 function getServerURL() {
-    // "http://127.0.0.1:5000"
-    return "https://3aa35094.ngrok.io";
+    return "https://5ec0a80f.ngrok.io";
 }
 
 function drawResults(name, results) {
@@ -264,8 +258,7 @@ function drawResults(name, results) {
 
 async function getResults(name="local", sort="score") {
     if (name === "local") {
-        let results = await getResultsDB("by_" + sort);
-        drawResults(name, results);
+        getResultsDB("by_" + sort).then(results => drawResults(name, results));
     } else {
         let basic_url = getServerURL();
         let url = basic_url + "/api/get_results";
@@ -304,10 +297,15 @@ async function addResult(result) {
             },
             body: JSON.stringify(result)
         });
-    }  catch (e) {
+    } catch (e) {
         console.log("ERROR: " + e);
     }
-    await getResults();
+    let tablinks = document.getElementsByClassName("tablinks");
+    for (let i = 0; i < tablinks.length; ++i) {
+        if (tablinks[i].className.includes(" active")) {
+            await getResults(tablinks[i].id.slice(4)); // tab_{name}
+        }
+    }
 }
 
 function checkVersion(current_version) {
@@ -375,6 +373,44 @@ function getAboutText() {
         `
 }
 
+function toTimeString(time) {
+    time = Math.floor(time / 1000);
+    let hours = "0" + Math.floor(time / (60 * 60));
+    let minutes = "0" + Math.floor((time % 3600) / 60);
+    let seconds = "0" + Math.floor(time % 60);
+    return hours.slice(-2) + ":" + minutes.slice(-2) + ":" + seconds.slice(-2);
+}
+
+function showStatistics(segments) {
+    let modal = document.getElementById("my_modal");
+    console.log(segments);
+
+    let now = new Date();
+    segments.push({start: localStorage.getItem("start_segment"), finish: now.getTime().toString()});
+
+    let all_time_in_game = 0;
+    for (let i = 0; i < segments.length; ++i) {
+        all_time_in_game += +segments[i].finish - +segments[i].start;
+    }
+
+    console.log(all_time_in_game);
+
+    d3.select("#modal_header").selectAll("h2").text("Statistics");
+    d3.select("#modal_body").html("");
+
+    let modal_body = document.getElementById("modal_body");
+
+    let p = document.createElement("p");
+    if (all_time_in_game >= 0) {
+        p.innerText = "Your time in game: " + toTimeString(all_time_in_game);
+    } else {
+        p.innerText = "Sorry, we can't calculate your time because of some bugs";
+    }
+    modal_body.append(p);
+
+    modal.style.display = "block";
+}
+
 function setUpModals() {
     let modal = document.getElementById("my_modal");
     let button_about = document.getElementById("open_about_button");
@@ -406,41 +442,8 @@ function setUpModals() {
         modal.style.display = "block";
     };
 
-    button_statistics.onclick = async function() {
-        let segments = await getTimeSegments();
-
-        console.log(segments);
-
-        let now = new Date();
-        segments.push({start: localStorage.getItem("start_segment"), finish: now.getTime().toString()});
-
-        let all_time_in_game = 0;
-
-        for (let i = 0; i < segments.length; ++i) {
-            all_time_in_game += +segments[i].finish - +segments[i].start;
-        }
-
-        console.log(all_time_in_game);
-
-        all_time_in_game = Math.floor(all_time_in_game / 1000);
-        let hours = "0" + Math.floor(all_time_in_game / (60 * 60));
-        let minutes = "0" + Math.floor((all_time_in_game % 3600) / 60);
-        let seconds = "0" + Math.floor(all_time_in_game % 60);
-
-        d3.select("#modal_header").selectAll("h2").text("Statistics");
-        d3.select("#modal_body").html("");
-
-        let modal_body = document.getElementById("modal_body");
-
-        let p = document.createElement("p");
-        if (all_time_in_game >= 0) {
-            p.innerText = "Your time in game: " + hours.slice(-2) + ":" + minutes.slice(-2) + ":" + seconds.slice(-2);
-        } else {
-            p.innerText = "Sorry, we can't calculate your time because of some bugs";
-        }
-        modal_body.append(p);
-
-        modal.style.display = "block";
+    button_statistics.onclick = function() {
+        getTimeSegments().then(segments => showStatistics(segments));
     };
 
 
