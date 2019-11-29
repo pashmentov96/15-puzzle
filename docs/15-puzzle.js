@@ -252,7 +252,7 @@ function getServerURL() {
 function drawResults(name, results) {
     let table = document.getElementById("table_id_" + name);
     d3.select("#table_id_" + name).selectAll("tr").filter((d, i) => i > 0).remove();
-    for (let key in results) {
+    for (let key = 0; key < results.length; ++key) {
         let tr = document.createElement("tr");
         tr.innerHTML = `<td>${+key + 1}</td> <td>${results[key].score} <td>${results[key].time}</td>`;
         table.append(tr);
@@ -293,7 +293,7 @@ async function addResult(result) {
     let url = basic_url + "/api/add_result";
 
     try {
-        let response = await fetch(url, {
+        await fetch(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
@@ -319,13 +319,32 @@ function checkVersion(current_version) {
         localStorage.setItem("version", current_version);
     } else {
         // later we can refresh some information which will be updated
-        if (localStorage.getItem("version") >= "v0.20") {
+        if (!localStorage.getItem("best_results")) {
+            getResultsDB("by_score").then(results => {
+                if (results.length > 0) {
+                    best_result.innerText = results[0].score;
+                    localStorage.setItem("best_result", best_result.innerText);
+                }
+            });
+        } else {
             best_result.innerText = localStorage.getItem("best_result");
-            best_time.innerHTML = localStorage.getItem("best_time");
         }
+
+        if (!localStorage.getItem("best_time")) {
+            getResultsDB("by_time").then(results => {
+                if (results.length > 0) {
+                    best_time.innerText = results[0].time;
+                    localStorage.setItem("best_time", best_time.innerText);
+                }
+            });
+        } else {
+            best_time.innerText = localStorage.getItem("best_time");
+        }
+
         if (localStorage.getItem("version") < "v0.23") {
             clearTimeSegments();
         }
+
         let start, finish;
         if (localStorage.getItem("start_segment")) {
             start = localStorage.getItem("start_segment");

@@ -14,7 +14,7 @@
 <body>
     <div id="header">
         <div style="height: 100%">
-            <img src="images/icon-15-puzzle.png" style="height: 100%">
+            <img src="images/icon-15-puzzle.png" style="height: 100%" alt="15-puzzle">
         </div>
         <div id="header_tabs">
             <button type="button" id="open_about_button" class="open_modal">
@@ -29,7 +29,7 @@
         </div>
     </div>
     <div id="game_body">
-        <svg id="field" width="500" height="500" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <svg id="field" width="500" height="500" xmlns="http://www.w3.org/2000/svg">
         </svg>
         <div id="results">
             <span>Current result: <span id="current_result">0</span></span>
@@ -79,7 +79,7 @@
         </div>
 
         <button type="button" onclick="getResults()">
-            <img src="images/icons8-refresh-16.png" style="vertical-align: middle"> Refresh
+            <img src="images/icons8-refresh-16.png" style="vertical-align: middle" alt=""> Refresh
         </button>
         <!-- <button type="button" class="btn btn-default btn-sm">
             <span class="glyphicon">&#xe031;</span> Refresh
@@ -99,7 +99,7 @@
     </div>
 </body>
 <script>
-    checkVersion("v0.23");
+    checkVersion("v0.24");
     setUpModals();
     initDB();
     document.getElementById("tab_local").click();
