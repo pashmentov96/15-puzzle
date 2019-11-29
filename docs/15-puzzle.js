@@ -391,7 +391,7 @@ function getAboutText() {
           -- Local results: only your results and they should be always accessible when you load the page.
           -- Global results: results of all users of this game. These results can be hidden because of problems with connection or server's problems
         
-        TODO: achievements(local), back move, timer
+        TODO: achievements(local), back move, another statistics
         `
 }
 
@@ -401,6 +401,21 @@ function toTimeString(time) {
     let minutes = "0" + Math.floor((time % 3600) / 60);
     let seconds = "0" + Math.floor(time % 60);
     return hours.slice(-2) + ":" + minutes.slice(-2) + ":" + seconds.slice(-2);
+}
+
+function getDayTime(segments) {
+    let now = new Date();
+    let now_stamp = now.getTime();
+    let start_stamp = now_stamp - 24 * 60 * 60 * 1000;
+    let result = 0;
+    for (let i = 0; i < segments.length; ++i) {
+        if (+segments[i].start >= start_stamp) {
+            result += segments[i].finish - segments[i].start;
+        } else if (+segments[i].finish > start_stamp) {
+            result += +segments[i].finish - start_stamp;
+        }
+    }
+    return result;
 }
 
 function showStatistics(segments) {
@@ -422,13 +437,23 @@ function showStatistics(segments) {
 
     let modal_body = document.getElementById("modal_body");
 
-    let p = document.createElement("p");
+    let p_full_time = document.createElement("p");
     if (all_time_in_game >= 0) {
-        p.innerText = "Your time in game: " + toTimeString(all_time_in_game);
+        p_full_time.innerText = "All time in game: " + toTimeString(all_time_in_game);
     } else {
-        p.innerText = "Sorry, we can't calculate your time because of some bugs";
+        p_full_time.innerText = "Sorry, we can't calculate your time because of some bugs";
     }
-    modal_body.append(p);
+
+    let p_session_time = document.createElement("p");
+    p_session_time.innerText = "Current session: " +
+        toTimeString(segments[segments.length - 1].finish - segments[segments.length - 1].start);
+
+    let p_day_time = document.createElement("p");
+    p_day_time.innerText = "Time in game today: " + toTimeString(getDayTime(segments));
+
+    modal_body.append(p_full_time);
+    modal_body.append(p_day_time);
+    modal_body.append(p_session_time);
 
     modal.style.display = "block";
 }
