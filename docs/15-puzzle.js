@@ -246,7 +246,7 @@ function stopwatchFunction(start_stamp) {
 }
 
 function getServerURL() {
-    return "https://5ec0a80f.ngrok.io";
+    return "https://script.google.com/macros/s/AKfycbws2jaJY0uS5i75UUdKMYTju6JdFUafPCY9B1ddbQt0RtfxgFRj/exec";
 }
 
 function drawResults(name, results) {
@@ -264,7 +264,7 @@ async function getResults(name="local", sort="score") {
         getResultsDB("by_" + sort).then(results => drawResults(name, (results.length > 10 ? results.slice(0, 10) : results)));
     } else {
         let basic_url = getServerURL();
-        let url = basic_url + "/api/get_results";
+        let url = basic_url;
 
         let params = new URLSearchParams();
         params.append("sort", sort);
@@ -290,19 +290,23 @@ async function addResult(result) {
     await addResultDB(result);
 
     let basic_url = getServerURL();
-    let url = basic_url + "/api/add_result";
+    let url = basic_url;
 
     try {
         await fetch(url, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json;charset=utf-8'
+                'Content-Type': 'text/plain'
             },
-            body: JSON.stringify(result)
+            body: JSON.stringify({"pathInfo": "addResult", ...result})
         });
     } catch (e) {
         console.log("ERROR: " + e);
     }
+    refreshResults();
+}
+
+async function refreshResults() {
     let tablinks = document.getElementsByClassName("tablinks");
     for (let i = 0; i < tablinks.length; ++i) {
         if (tablinks[i].className.includes(" active")) {
