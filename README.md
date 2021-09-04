@@ -5,4 +5,4 @@ The 15 puzzle is a sliding puzzle having 15 square tiles numbered 1–15 in a fr
 ### Example of game
 
 In the following picture you can see the page with the game:
-![It's an amazing!](images/example.png "example")
+![It's an amazing!](docs/images/example.png "example")
