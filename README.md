@@ -6,3 +6,7 @@ The 15 puzzle is a sliding puzzle having 15 square tiles numbered 1–15 in a fr
 
 In the following picture you can see the page with the game:
 ![It's an amazing!](docs/images/example.png "example")
+
+### Results
+
+On the right panel of the page you can see local and global results. Local results depend on browser. If you open different browser or new private window then local results will be empty. 
