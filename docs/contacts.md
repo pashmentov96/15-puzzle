@@ -2,8 +2,8 @@
 
 <style>
   .contact-list {
-    margin-left: -32px;
-    margin-top: 10px;
+    padding-top: 10px;
+    padding-left: 0;
   }
   .contact {
     list-style: none;
