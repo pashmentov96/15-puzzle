@@ -3,6 +3,7 @@
 <style>
   .contact-list {
     margin-left: -32px;
+    margin-top: 10px;
   }
   .contact {
     list-style: none;
@@ -23,10 +24,11 @@
 </style>
 
 <nav class="menu" style="align-items: center">
-    <div class="container" style="align-items: center">
-        <a href="15-puzzle.html">Game</a> |
-        <a href="contacts.html">Contacts</a>
-    </div>
+  <div class="container" style="align-items: center">
+    <a href="#">Main page</a> |
+    <a href="15-puzzle.html">Game</a> |
+    <a href="contacts.html">Contacts</a>
+  </div>
 </nav>
 
 <ul class="contact-list">
