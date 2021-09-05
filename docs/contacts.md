@@ -1,6 +1,9 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 
 <style>
+  .contact-list {
+    margin-left: -32px;
+  }
   .contact {
     list-style: none;
   }
@@ -18,6 +21,13 @@
     color: #171516;
   }
 </style>
+
+<nav class="menu" style="align-items: center">
+    <div class="container" style="align-items: center">
+        <a href="15-puzzle.html">Game</a> |
+        <a href="contacts.html">Contacts</a>
+    </div>
+</nav>
 
 <ul class="contact-list">
   <li class="contact email">
