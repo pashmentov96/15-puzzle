@@ -1,7 +1,7 @@
 <nav class="menu" style="align-items: center">
     <div class="container" style="align-items: center">
         <a href="15-puzzle.html">Game</a> |
-        <a href="contact.html">Contacts</a>
+        <a href="contacts.html">Contacts</a>
     </div>
 </nav>
 
