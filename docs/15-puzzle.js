@@ -246,7 +246,7 @@ function stopwatchFunction(start_stamp) {
 }
 
 function getServerURL() {
-    return "https://script.google.com/macros/s/AKfycbws2jaJY0uS5i75UUdKMYTju6JdFUafPCY9B1ddbQt0RtfxgFRj/exec";
+    return "https://script.google.com/macros/s/AKfycbxSxTehgLRIqM5Id6RIryxFCwaj6DG0jPd578frCRaU3maizIWr5k87h2m3hWeHc81i/exec";
 }
 
 function drawResults(name, results) {
